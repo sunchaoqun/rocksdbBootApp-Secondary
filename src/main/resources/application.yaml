@@ -1,0 +1,10 @@
+rocksdb:
+  name:
+  db-dir:
+
+logging:
+  file:
+    path: .
+  pattern:
+    console: 
+
