@@ -1,6 +1,6 @@
-package io.stockgeeks.api;
+package io.scq.api;
 
-import io.stockgeeks.repository.KeyValueRepository;
+import io.scq.repository.KeyValueRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;
@@ -39,14 +39,14 @@ public class RocksApi {
   @GetMapping(value = "/{key}", produces = MediaType.TEXT_PLAIN_VALUE)
   public ResponseEntity<String> find(@PathVariable("key") String key) {
     log.info("RocksApi.find");
-    int i = 100000000;
-    String result = null;
-    while(i != 0){
-      result = rocksDB.find(key);
-      log.info(formatter.format(new Date()));
-      log.info(result);
-      i--;
-    }
+    // int i = 100000000;
+    String result = rocksDB.find(key);
+    // while(i != 0){
+    //   result = rocksDB.find(key);
+    //   log.info(formatter.format(new Date()));
+    //   log.info(result);
+    //   i--;
+    // }
     
     if(result == null) return ResponseEntity.noContent().build();
     return ResponseEntity.ok(result);

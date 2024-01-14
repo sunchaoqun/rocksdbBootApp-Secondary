@@ -1,4 +1,4 @@
-package io.stockgeeks.repository;
+package io.scq.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.rocksdb.WriteOptions;

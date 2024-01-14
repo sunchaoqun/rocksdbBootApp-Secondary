@@ -3,8 +3,7 @@ rocksdb:
   db-dir:
 
 logging:
-  file:
-    path: .
+  file: /efs/spring-secondary.log
   pattern:
     console: 
 

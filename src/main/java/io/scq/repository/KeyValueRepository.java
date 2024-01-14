@@ -1,4 +1,4 @@
-package io.stockgeeks.repository;
+package io.scq.repository;
 
 public interface KeyValueRepository<K, V> {
   void save(K key, V value);
