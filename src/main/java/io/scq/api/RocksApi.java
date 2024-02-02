@@ -52,6 +52,16 @@ public class RocksApi {
     return ResponseEntity.ok(result);
   }
 
+  @GetMapping(value = "/{startMinute}/{endMinute}", produces = MediaType.TEXT_PLAIN_VALUE)
+  public ResponseEntity<String> find(@PathVariable("startMinute") String startMinute,@PathVariable("endMinute") String endMinute) {
+    log.info("RocksApi.find");
+    // // int i = 100000000;
+    String result = rocksDB.find(startMinute,endMinute);
+    
+    if(result == null) return ResponseEntity.noContent().build();
+    return ResponseEntity.ok(result);
+  }
+
   @DeleteMapping(value = "/{key}")
   public ResponseEntity<String> delete(@PathVariable("key") String key) {
     log.info("RocksApi.delete");

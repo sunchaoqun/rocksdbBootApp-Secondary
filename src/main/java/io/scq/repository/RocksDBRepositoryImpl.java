@@ -1,16 +1,16 @@
 package io.scq.repository;
 
 import lombok.extern.slf4j.Slf4j;
-import org.rocksdb.WriteOptions;
-import org.rocksdb.Options;
-import org.rocksdb.RocksDB;
-import org.rocksdb.RocksDBException;
+import org.rocksdb.*;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
 
 @Slf4j
 @Repository
@@ -49,6 +49,45 @@ public class RocksDBRepositoryImpl implements KeyValueRepository<String, String>
     } catch (RocksDBException e) {
       log.error("Error saving entry in RocksDB, cause: {}, message: {}", e.getCause(), e.getMessage());
     }
+  }
+
+  @Override
+  public synchronized String find(String startMinute, String endMinute) {
+    log.info("find");
+
+    JsonArray jsonArray = new JsonArray();
+
+    try {
+      db.tryCatchUpWithPrimary();
+   // 定义查询的时间范围（分钟）
+   // String startMinute = "202101011230";  // 开始时间，例如2021年1月1日12点30分
+   // String endMinute = "202101011235";    // 结束时间，例如2021年1月1日12点35分
+
+   try (final RocksIterator iterator = db.newIterator()) {
+        // int count = 0;
+      //  for (iterator.seek(startMinute.getBytes()); iterator.isValid(); iterator.next()) {
+      //     //  String key = new String(iterator.key());
+      //     //  if (key.compareTo(endMinute) > 0) {
+      //     //      break;
+      //     //  }
+      //     //  String value = new String(iterator.value());
+
+      //     //  JsonObject jsonObject = new JsonObject();
+      //     //  jsonObject.addProperty("key", key);
+      //     //  jsonObject.addProperty("value", value);
+      //     //  jsonArray.add(jsonObject);
+      //  }
+      for (iterator.seekToLast(); iterator.isValid(); iterator.next()) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("key", new String(iterator.key()));
+        jsonObject.addProperty("value", new String(iterator.value()));
+        jsonArray.add(jsonObject);
+      }
+   }
+} catch (RocksDBException e) {
+  log.error("Error retrieving the entry in RocksDB from startMinute {} - endMinute {}, cause: {}, message: {}", startMinute,endMinute, e.getCause(), e.getMessage());
+}
+    return jsonArray.toString();
   }
 
   @Override

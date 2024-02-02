@@ -10,6 +10,6 @@ RUN mkdir -p /efs
 
 EXPOSE 8080
 
-CMD ["java","-jar","/app/app.jar"]
+CMD ["java","-Xmx4096m","-jar","/app/app.jar"]
 
 # docker build -t rocksdb-boot-app-secondary . 

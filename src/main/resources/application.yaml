@@ -2,8 +2,12 @@ rocksdb:
   name:
   db-dir:
 
+# logging:
+#   file: /efs/spring-secondary.log
+#   pattern:
+#     console: 
+
 logging:
-  file: /efs/spring-secondary.log
-  pattern:
-    console: 
+  level:
+    root: warn
 
